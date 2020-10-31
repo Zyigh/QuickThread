@@ -31,7 +31,7 @@ export default new Vuex.Store({
         const endTweet = `${acc.currentIndex + 1}/${acc.numberOfStrings}`;
         const tweet = `${acc.tweets[acc.currentIndex].trim()} ${word}\n${endTweet}`;
 
-        if (280 < tweet.length) {
+        if (280 <= tweet.length) {
           acc.tweets[acc.currentIndex] = tweet;
           acc.currentIndex++;
         } else {
