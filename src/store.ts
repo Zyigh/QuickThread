@@ -12,6 +12,7 @@ export interface Accumulator {
 export default new Vuex.Store({
   state: {
     tweetsFormatted: Array<string>(),
+
   },
   mutations: {
       SET_TWEETS_FORMATTED(state, tweetsFormatted: string[]) {
