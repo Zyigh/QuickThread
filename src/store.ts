@@ -21,7 +21,7 @@ export default new Vuex.Store({
   },
   actions: {
     setTweetsContent({commit}, tweetsContent: string) {
-      const words: string[] = tweetsContent.split(' ');
+      const words: string[] = tweetsContent.trim().split(' ');
       const nbrOfTweets: number = Math.ceil(tweetsContent.length / 280);
 
       const tweetsFormatted = words.reduce((acc, word) => {
@@ -30,7 +30,7 @@ export default new Vuex.Store({
         }
 
         const endTweet = `${acc.currentIndex + 1}/${acc.numberOfStrings}`;
-        const tweet = `${acc.tweets[acc.currentIndex].trim()} ${word}\n${endTweet}`;
+        const tweet = `${acc.tweets[acc.currentIndex]} ${word}\n${endTweet}`;
 
         if (280 <= tweet.length) {
           acc.tweets[acc.currentIndex] = tweet;
