@@ -1,7 +1,7 @@
 <template>
   <div class="border bg-white rounded">
     <div class="text-center p-2">
-      <h2>Éditeur</h2>
+      <h2>Editor</h2>
     </div>
     <div class="form-group p-2">
       <label for="tweet-content">Tweets :</label>
@@ -9,12 +9,13 @@
         id="tweet-content"
         rows="8"
         max-rows="42"
-        v-model="tweetsContent"
+        v-model="rawContent"
         no-resize
       />
     </div>
-    <div class="form-group py-2 d-flex align-items-center justify-content-center">
-      <b-button variant="primary" @click="preview">Preview</b-button>
+    <div class="form-group py-2 d-flex align-items-center justify-content-around">
+      <b-button variant="primary" @click="saveContent" :disabled="contentIsSameAsStore">Save content</b-button>
+      <b-button variant="secondary" @click="preview">Preview</b-button>
     </div>
   </div>
 </template>
@@ -23,16 +24,25 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-    name: 'TweetEditor',
-    data() {
-        return {
-            tweetsContent: '',
-        };
+  name: 'TweetEditor',
+  data() {
+    return {
+        rawContent: this.$store.getters.rawContent,
+    };
+  },
+  computed: {
+    contentIsSameAsStore(): boolean {
+      return  this.$store.getters.rawContent === this.rawContent;
     },
-    methods: {
-        preview() {
-            this.$store.dispatch('setTweetsContent', this.tweetsContent);
-        },
+  },
+  methods: {
+    preview() {
+      this.$store.dispatch('setRawContent', this.rawContent);
+      this.$store.dispatch('setTweetsContent', this.rawContent);
     },
+    saveContent() {
+       this.$store.dispatch('setRawContent', this.rawContent);
+    },
+  },
 });
 </script>
