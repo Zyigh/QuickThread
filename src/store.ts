@@ -3,6 +3,8 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
+const rawContentKey = 'rawContent';
+
 export interface Accumulator {
     tweets: string[];
     numberOfStrings: number;
@@ -11,12 +13,15 @@ export interface Accumulator {
 
 export default new Vuex.Store({
   state: {
+    rawContent: localStorage.getItem(rawContentKey) || '',
     tweetsFormatted: Array<string>(),
-
   },
   mutations: {
       SET_TWEETS_FORMATTED(state, tweetsFormatted: string[]) {
         state.tweetsFormatted = tweetsFormatted;
+      },
+      SET_RAW_CONTENT(state, rawContent: string) {
+        state.rawContent = rawContent;
       },
   },
   actions: {
@@ -53,8 +58,15 @@ export default new Vuex.Store({
 
       commit('SET_TWEETS_FORMATTED', tweetsFormatted);
     },
+    setRawContent({commit}, rawContent: string) {
+        localStorage.setItem(rawContentKey, rawContent);
+        commit('SET_RAW_CONTENT', rawContent);
+    },
   },
   getters: {
+    rawContent(state): string {
+        return state.rawContent;
+    },
     tweetsFormatted(state): string[] {
       return state.tweetsFormatted;
     },

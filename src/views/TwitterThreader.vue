@@ -5,7 +5,7 @@
       <TweetEditor />
     </div>
     <div class="col-md-6">
-      <TweetsPreview />
+      <TweetsPreview v-if="hasElements" />
     </div>
   </div>
   </div>
@@ -21,6 +21,14 @@ export default Vue.extend({
     components: {
         TweetEditor,
         TweetsPreview,
+    },
+    computed: {
+        tweetsFormatted(): string[] {
+            return this.$store.getters.tweetsFormatted;
+        },
+        hasElements(): boolean {
+            return 0 < this.tweetsFormatted.length;
+        },
     },
 });
 </script>
