@@ -20,24 +20,23 @@ export default new Vuex.Store({
   },
   actions: {
     setTweetsContent({commit}, tweetsContent: string) {
-      let tweetsFormatted = Array<String>();
+      let tweetsFormatted = Array<string>();
 
       if (tweetsContent.length > 0) {
         if (tweetsContent.length <= 280) {
               tweetsFormatted.push(tweetsContent);
         } else {
           const nbrOfTweets: number = Math.ceil(tweetsContent.length / 280);
-          const tweetsCountTemplate: string = `\n${nbrOfTweets}/${nbrOfTweets}`;
-          const regex = new RegExp(`.{1,${280 - tweetsCountTemplate.length}}`, 'g');
+          const tweetsCountEstimateTemplate: string = `\n${nbrOfTweets}/${nbrOfTweets}`;
+          const regex = new RegExp(`.{1,${280 - tweetsCountEstimateTemplate.length}}`, 'g');
           const tweets: string[] = tweetsContent.trim().match(regex) || Array<string>();
 
           tweetsFormatted = tweets.map((tweet, index) => {
             if (nbrOfTweets === 1) {
               return tweet;
             }
-            const tweetCountTemplate = tweetsCountTemplate.replace(`${nbrOfTweets}`, `${index + 1}`);
 
-            return `${tweet}${tweetCountTemplate}`;
+            return `${tweet}\n${index + 1}/${tweets.length}`;
           });
         }
       }
