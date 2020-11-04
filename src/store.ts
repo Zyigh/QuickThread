@@ -5,67 +5,57 @@ Vue.use(Vuex);
 
 const rawContentKey = 'rawContent';
 
-export interface Accumulator {
-    tweets: string[];
-    numberOfStrings: number;
-    currentIndex: number;
-}
-
 export default new Vuex.Store({
   state: {
     rawContent: localStorage.getItem(rawContentKey) || '',
     tweetsFormatted: Array<string>(),
   },
   mutations: {
-      SET_TWEETS_FORMATTED(state, tweetsFormatted: string[]) {
-        state.tweetsFormatted = tweetsFormatted;
-      },
-      SET_RAW_CONTENT(state, rawContent: string) {
-        state.rawContent = rawContent;
-      },
+    SET_TWEETS_FORMATTED(state, tweetsFormatted: string[]) {
+      state.tweetsFormatted = tweetsFormatted;
+    },
+    SET_RAW_CONTENT(state, rawContent: string) {
+      state.rawContent = rawContent;
+    },
   },
   actions: {
     setTweetsContent({commit}, tweetsContent: string) {
-      const words: string[] = tweetsContent.trim().split(' ');
-      const nbrOfTweets: number = Math.ceil(tweetsContent.length / 280);
+      let tweetsFormatted = Array<string>();
 
-      const tweetsFormatted = words.reduce((acc, word) => {
-        if (!acc.tweets[acc.currentIndex]) {
-            acc.tweets[acc.currentIndex] = '';
-        }
-
-        const endTweet = `${acc.currentIndex + 1}/${acc.numberOfStrings}`;
-        const tweet = `${acc.tweets[acc.currentIndex]} ${word}\n${endTweet}`;
-
-        if (280 <= tweet.length) {
-          acc.tweets[acc.currentIndex] = tweet;
-          acc.currentIndex++;
+      if (tweetsContent.length > 0) {
+        if (tweetsContent.length <= 280) {
+          tweetsFormatted.push(tweetsContent);
         } else {
-          acc.tweets[acc.currentIndex] += `${word} `;
+          const nbrOfTweets: number = Math.ceil(tweetsContent.length / 280);
+          let tweetsCountEstimateLength: number = `\n${nbrOfTweets}/${nbrOfTweets}`.length;
+
+          if (9 === nbrOfTweets && 0 === tweetsContent.length % 280) {
+            tweetsCountEstimateLength += 2;
+          }
+
+          const regex = new RegExp(`.{1,${280 - tweetsCountEstimateLength}} `, 'g');
+          const tweets: string[] = tweetsContent.trim().match(regex) || Array<string>();
+
+          tweetsFormatted = tweets.map((tweet, index) => {
+            if (nbrOfTweets === 1) {
+              return tweet;
+            }
+
+            return `${tweet}\n${index + 1}/${tweets.length}`;
+          });
         }
-
-        return acc;
-      }, {
-          tweets: Array<string>(),
-          numberOfStrings: nbrOfTweets,
-          currentIndex: 0,
-      } as Accumulator)
-      .tweets;
-
-      if (1 < nbrOfTweets) {
-          tweetsFormatted[nbrOfTweets - 1] += `\n${nbrOfTweets}/${nbrOfTweets}`;
       }
 
       commit('SET_TWEETS_FORMATTED', tweetsFormatted);
     },
     setRawContent({commit}, rawContent: string) {
-        localStorage.setItem(rawContentKey, rawContent);
-        commit('SET_RAW_CONTENT', rawContent);
+      localStorage.setItem(rawContentKey, rawContent);
+      commit('SET_RAW_CONTENT', rawContent);
     },
   },
   getters: {
     rawContent(state): string {
-        return state.rawContent;
+      return state.rawContent;
     },
     tweetsFormatted(state): string[] {
       return state.tweetsFormatted;

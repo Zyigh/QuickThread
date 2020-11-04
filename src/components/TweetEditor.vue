@@ -27,12 +27,12 @@ export default Vue.extend({
   name: 'TweetEditor',
   data() {
     return {
-        rawContent: this.$store.getters.rawContent,
+      rawContent: this.$store.getters.rawContent,
     };
   },
   computed: {
     contentIsSameAsStore(): boolean {
-      return  this.$store.getters.rawContent === this.rawContent;
+      return this.$store.getters.rawContent === this.rawContent;
     },
   },
   methods: {
@@ -41,7 +41,7 @@ export default Vue.extend({
       this.$store.dispatch('setTweetsContent', this.rawContent);
     },
     saveContent() {
-       this.$store.dispatch('setRawContent', this.rawContent);
+      this.$store.dispatch('setRawContent', this.rawContent);
     },
   },
 });
