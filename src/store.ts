@@ -11,12 +11,12 @@ export default new Vuex.Store({
     tweetsFormatted: Array<string>(),
   },
   mutations: {
-      SET_TWEETS_FORMATTED(state, tweetsFormatted: string[]) {
-        state.tweetsFormatted = tweetsFormatted;
-      },
-      SET_RAW_CONTENT(state, rawContent: string) {
-        state.rawContent = rawContent;
-      },
+    SET_TWEETS_FORMATTED(state, tweetsFormatted: string[]) {
+      state.tweetsFormatted = tweetsFormatted;
+    },
+    SET_RAW_CONTENT(state, rawContent: string) {
+      state.rawContent = rawContent;
+    },
   },
   actions: {
     setTweetsContent({commit}, tweetsContent: string) {
@@ -24,7 +24,7 @@ export default new Vuex.Store({
 
       if (tweetsContent.length > 0) {
         if (tweetsContent.length <= 280) {
-              tweetsFormatted.push(tweetsContent);
+          tweetsFormatted.push(tweetsContent);
         } else {
           const nbrOfTweets: number = Math.ceil(tweetsContent.length / 280);
           const tweetsCountEstimateTemplate: string = `\n${nbrOfTweets}/${nbrOfTweets}`;
@@ -44,13 +44,13 @@ export default new Vuex.Store({
       commit('SET_TWEETS_FORMATTED', tweetsFormatted);
     },
     setRawContent({commit}, rawContent: string) {
-        localStorage.setItem(rawContentKey, rawContent);
-        commit('SET_RAW_CONTENT', rawContent);
+      localStorage.setItem(rawContentKey, rawContent);
+      commit('SET_RAW_CONTENT', rawContent);
     },
   },
   getters: {
     rawContent(state): string {
-        return state.rawContent;
+      return state.rawContent;
     },
     tweetsFormatted(state): string[] {
       return state.tweetsFormatted;
