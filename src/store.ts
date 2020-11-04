@@ -33,10 +33,10 @@ export default new Vuex.Store({
             tweetsCountEstimateLength += 2;
           }
 
-          const regex = new RegExp(`.{1,${280 - tweetsCountEstimateLength}} `, 'g');
+          const regex = new RegExp(`.{1,${280 - tweetsCountEstimateLength}}( |.$)`, 'gms');
           const tweets: string[] = tweetsContent.trim().match(regex) || Array<string>();
 
-          tweetsFormatted = tweets.map((tweet, index) => {
+          tweetsFormatted = tweets.map((tweet: string, index: number): string => {
             if (nbrOfTweets === 1) {
               return tweet;
             }
