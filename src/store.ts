@@ -27,8 +27,13 @@ export default new Vuex.Store({
           tweetsFormatted.push(tweetsContent);
         } else {
           const nbrOfTweets: number = Math.ceil(tweetsContent.length / 280);
-          const tweetsCountEstimateTemplate: string = `\n${nbrOfTweets}/${nbrOfTweets}`;
-          const regex = new RegExp(`.{1,${280 - tweetsCountEstimateTemplate.length}}`, 'g');
+          let tweetsCountEstimateLength: number = `\n${nbrOfTweets}/${nbrOfTweets}`.length;
+
+          if (9 === nbrOfTweets && 0 === tweetsContent.length % 280) {
+            tweetsCountEstimateLength += 2;
+          }
+
+          const regex = new RegExp(`.{1,${280 - tweetsCountEstimateLength}}`, 'g');
           const tweets: string[] = tweetsContent.trim().match(regex) || Array<string>();
 
           tweetsFormatted = tweets.map((tweet, index) => {
