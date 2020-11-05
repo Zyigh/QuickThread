@@ -14,8 +14,14 @@
       />
     </div>
     <div class="form-group py-2 d-flex align-items-center justify-content-around">
-      <b-button variant="primary" @click="saveContent" :disabled="contentIsSameAsStore">Save content</b-button>
-      <b-button variant="secondary" @click="preview">Preview</b-button>
+      <b-button
+        :variant="contentIsSameAsStore ? 'secondary' : 'primary'"
+        @click="saveContent"
+        :disabled="contentIsSameAsStore"
+      >
+        Save content
+      </b-button>
+      <b-button variant="primary" @click="preview">Preview</b-button>
     </div>
   </div>
 </template>
@@ -36,12 +42,16 @@ export default Vue.extend({
     },
   },
   methods: {
-    preview() {
-      this.$store.dispatch('setRawContent', this.rawContent);
+    async preview() {
       this.$store.dispatch('setTweetsContent', this.rawContent);
+      if (this.$store.getters.rawContent !== this.rawContent) {
+        await this.$store.dispatch('setRawContent', this.rawContent);
+        this.$emit('contentSaved');
+      }
     },
-    saveContent() {
-      this.$store.dispatch('setRawContent', this.rawContent);
+    async saveContent() {
+      await this.$store.dispatch('setRawContent', this.rawContent);
+      this.$emit('contentSaved');
     },
   },
 });
