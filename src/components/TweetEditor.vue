@@ -11,6 +11,7 @@
         max-rows="42"
         v-model="rawContent"
         no-resize
+        @input="preview"
       />
     </div>
     <div class="form-group py-2 d-flex align-items-center justify-content-around">
@@ -21,7 +22,6 @@
       >
         Save content
       </b-button>
-      <b-button variant="primary" @click="preview">Preview</b-button>
     </div>
   </div>
 </template>
@@ -44,15 +44,16 @@ export default Vue.extend({
   methods: {
     async preview() {
       this.$store.dispatch('setTweetsContent', this.rawContent);
-      if (this.$store.getters.rawContent !== this.rawContent) {
-        await this.$store.dispatch('setRawContent', this.rawContent);
-        this.$emit('contentSaved');
-      }
     },
     async saveContent() {
       await this.$store.dispatch('setRawContent', this.rawContent);
       this.$emit('contentSaved');
     },
+  },
+  mounted() {
+    if ('' !== this.rawContent) {
+      this.$store.dispatch('setTweetsContent', this.rawContent);
+    }
   },
 });
 </script>
