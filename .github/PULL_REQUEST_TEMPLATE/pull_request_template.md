@@ -13,10 +13,6 @@
 <!--- If fixing a bug, there should be an issue describing it with steps to reproduce -->
 <!--- Please link to the issue here: -->
 
-## Motivation and Context
-
-<!--- Why is this change required? What problem does it solve? -->
-
 ## How Has This Been Tested
 
 <!--- Please describe in detail how you tested your changes. -->
@@ -31,6 +27,7 @@
 - [ ] Bug fix (non-breaking change which fixes an issue)
 - [ ] New feature (non-breaking change which adds functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to change)
+- [ ] Refactoring (improve a part of the code to make it more efficient)
 
 ## Checklist
 
