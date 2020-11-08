@@ -1,7 +1,7 @@
 # QuickThread
 
 <p align="center">
-    <img width="360" height="360" src="https://raw.githubusercontent.com/Zyigh/QuickThread/feat/gui/add-logo/public/logo-mid.png" alt="QuickThread" title="QuickThread" />
+    <img width="360" height="360" src="https://raw.githubusercontent.com/Zyigh/QuickThread/master/public/logo-mid.png" alt="QuickThread" title="QuickThread" />
 </p>
 
 A simple tool to write threads on Twitter. QuickThread allows you to write a text, and post it as a Twitter thread
