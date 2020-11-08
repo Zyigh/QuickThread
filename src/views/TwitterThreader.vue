@@ -12,11 +12,11 @@
         <p class="p-0 m-0">
           Your content has been saved successfuly ! It will be available next time you come here.
         </p>
-    </b-alert>
+      </b-alert>
     </div>
     <div class="row">
       <div class="col-md-6">
-        <TweetEditor @contentSaved="showSuccessAlert" />
+        <TweetEditor @contentSaved="showSuccessAlert"/>
       </div>
       <div class="col-md-6">
         <TweetsPreview v-if="hasElements"/>
@@ -33,6 +33,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapGetters } from 'vuex';
 
 import TweetEditor from '../components/TweetEditor.vue';
 import TweetsPreview from '../components/TweetsPreview.vue';
@@ -49,9 +50,9 @@ export default Vue.extend({
     };
   },
   computed: {
-    tweetsFormatted(): string[] {
-      return this.$store.getters.tweetsFormatted;
-    },
+    ...mapGetters([
+      'tweetsFormatted',
+    ]),
     hasElements(): boolean {
       return 0 < this.tweetsFormatted.length;
     },

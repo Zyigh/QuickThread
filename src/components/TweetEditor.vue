@@ -11,7 +11,7 @@
         max-rows="42"
         v-model="rawContent"
         no-resize
-        @input="preview"
+        @input="setTweetsContent"
       />
     </div>
     <div class="form-group py-2 d-flex align-items-center justify-content-around">
@@ -28,6 +28,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapActions } from 'vuex';
 
 export default Vue.extend({
   name: 'TweetEditor',
@@ -42,17 +43,18 @@ export default Vue.extend({
     },
   },
   methods: {
-    async preview() {
-      this.$store.dispatch('setTweetsContent', this.rawContent);
-    },
+    ...mapActions([
+      'setTweetsContent',
+      'setRawContent',
+    ]),
     async saveContent() {
-      await this.$store.dispatch('setRawContent', this.rawContent);
+      await this.setRawContent(this.rawContent);
       this.$emit('contentSaved');
     },
   },
   mounted() {
     if ('' !== this.rawContent) {
-      this.$store.dispatch('setTweetsContent', this.rawContent);
+      this.setTweetsContent(this.rawContent);
     }
   },
 });

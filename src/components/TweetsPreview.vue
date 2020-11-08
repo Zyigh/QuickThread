@@ -6,7 +6,7 @@
     <div class="p-2">
       <div class="my-2" v-for="tweet in tweetsFormatted">
         <b-card bg-variant="light">
-          <p v-html="tweet"/>
+          <p v-html="setupBlankSpacesForHtml(tweet)"/>
         </b-card>
       </div>
     </div>
@@ -15,12 +15,18 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapGetters } from 'vuex';
 
 export default Vue.extend({
   name: 'TweetsPreview',
   computed: {
-    tweetsFormatted(): string[] {
-      return this.$store.getters.tweetsFormatted.map((tweet: string) => tweet.replace(/\n/g, '<br />'));
+    ...mapGetters([
+      'tweetsFormatted',
+    ]),
+  },
+  methods: {
+    setupBlankSpacesForHtml(tweet: string): string {
+      return tweet.replace(/\n/g, '<br />');
     },
   },
 });
